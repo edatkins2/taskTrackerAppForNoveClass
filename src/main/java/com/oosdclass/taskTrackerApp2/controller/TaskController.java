@@ -1,45 +1,49 @@
 package com.oosdclass.taskTrackerApp2.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.oosdclass.taskTrackerApp2.model.Task;
-import com.oosdclass.taskTrackerApp2.model.User;
+import com.oosdclass.taskTrackerApp2.service.TaskService;
 
 @Controller
 public class TaskController {
 
-	//When TaskService is ready
-	//@Autowire
+	@Autowired
+	TaskService taskService;
+	
 	
 	@RequestMapping(value="/adminTasks")
-	public ModelAndView viewTask(ModelAndView model) {
+	public ModelAndView viewTasks(ModelAndView model) {
 		
-List<Task> taskList = mockServiceTasks():
-	model.addObject(taskList);
-model.setViewName("viewTask");
-return model;
-}
-	
-	
-	public List<Task> mockServiceTaks() {
-		Task task1 = new Task();
-		Task task2 = new Task();
+		//replace the mock method with the service
+		List<Task> taskList = taskService.getAllTask();
+		model.addObject(taskList);
+		model.setViewName("viewTask");
+		return model;
 		
-		task1.setId(1);
-		task1.setTaskDescription("taskDescription");
-		task1.setStatus("Open");
-		task2.setAssignedTo("assignedTo");
-		
-		List<Task> tasklList = new ArrayList<Task>();
-		tasklList.add(task1);
-		tasklList.add(task2);
-		
-		return tasklList;
 	}
+	//GET: show the admin only "create task" form
+		@RequestMapping(value="/createTaskForm") 
+		public ModelAndView createTaskForm(ModelAndView model) {	
+			//map create task form in the view page
+			Task task = new Task();
+			model.addObject(task);
+			model.setViewName("createTask");
+			return model;
+		}
+		//POST: post the newly created task to the DAO, and then display the updated table in "view task" page
+		@RequestMapping(value="/createTask", method = RequestMethod.POST)
+		public ModelAndView createTask(Task task) {
+			ModelAndView model=null;
+			taskService.saveTask(task); 
+			model = new ModelAndView("redirect:/adminTasks");
+			return model;
+		}	
 	
 	}

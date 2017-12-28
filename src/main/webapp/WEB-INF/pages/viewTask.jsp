@@ -7,7 +7,7 @@
 	<div class="row col-md-6 col-md-offset-2 custyle">
 		<table class="table table-striped custab">
 			<thead>
-				<a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b>
+				<a href="${contextPath}/createTaskForm" class="btn btn-primary btn-xs pull-right"><b>+</b>
 					Add a new task</a>
 				<tr>
 					<th>Task ID</th>

@@ -22,7 +22,7 @@ public class UserController {
 	// (/) method (GET) is the FIRST method that is called when the user accesses
 	// our app using
 	// the root context and display's the home page, which is nothing but "login"
-	//when the user accessses the login page we are initializing User object for the user to fill in
+	//when the user accesses the login page we are initializing User object for the user to fill in
 	@RequestMapping(value = "/")
 	public ModelAndView login(ModelAndView model) {
 			User user = new User();

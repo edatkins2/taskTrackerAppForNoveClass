@@ -3,7 +3,7 @@ package com.oosdclass.taskTrackerApp2.model;
 public class Task {
 	
 	private int taskId;
-	private String taskDescription;
+	private String description;
 	private String assignedTo;
 	private String status;
 	
@@ -13,11 +13,11 @@ public class Task {
 	public void setTaskId(int id) {
 		this.taskId = id;
 	}
-	public String getTaskDescription() {
-		return taskDescription;
+	public String getDescription() {
+		return description;
 	}
-	public void setTaskDescription(String taskDescription) {
-		this.taskDescription = taskDescription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public String getAssignedTo() {
 		return assignedTo;

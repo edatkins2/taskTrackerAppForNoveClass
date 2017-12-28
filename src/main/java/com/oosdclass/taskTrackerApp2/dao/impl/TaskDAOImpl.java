@@ -16,8 +16,8 @@ import com.oosdclass.taskTrackerApp2.model.Task;
 
 public class TaskDAOImpl implements TaskDAO {
 
-private JdbcTemplate jdbcTemplate;
-	
+	private JdbcTemplate jdbcTemplate;
+
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
@@ -27,15 +27,15 @@ private JdbcTemplate jdbcTemplate;
 		try {
 			String sql = "select * from task";
 			List<Task> tasklist = jdbcTemplate.query(sql, new ResultSetExtractor<List<Task>>() {
-				
+
 				@Override
 				public List<Task> extractData(ResultSet rs) throws SQLException, DataAccessException {
-					
+
 					List<Task> list = new ArrayList<Task>();
 					while (rs.next()) {
 						Task task = new Task();
 						task.setTaskId(rs.getInt(1));
-						task.setTaskDescription(rs.getString(2));
+						task.setDescription(rs.getString(2));
 						task.setAssignedTo(rs.getString(3));
 						task.setStatus(rs.getString(4));
 						list.add(task);
@@ -43,23 +43,23 @@ private JdbcTemplate jdbcTemplate;
 					return list;
 				}
 			});
-		return tasklist;
+			return tasklist;
 		} catch (EmptyResultDataAccessException ex) {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public Task retrieveByTaskID(int taskID) {
 		try {
 			String sql = "select * from user where taskId=?";
 			Task task = (Task) jdbcTemplate.queryForObject(sql, new Object[] { taskID }, new RowMapper<Task>() {
-				
+
 				@Override
 				public Task mapRow(ResultSet rs, int rowNum) throws SQLException {
 					Task task = new Task();
 					task.setTaskId(rs.getInt(1));
-					task.setTaskDescription(rs.getString(2));
+					task.setDescription(rs.getString(2));
 					task.setAssignedTo(rs.getString(3));
 					task.setStatus(rs.getString(4));
 					return task;
@@ -74,14 +74,17 @@ private JdbcTemplate jdbcTemplate;
 	@Override
 	public void saveTask(Task task) {
 		// TODO Auto-generated method stub
-		String sql = "Insert into task" +
-			    "(description, assignedTo, status) VALUES (?, ?, ?)";
+		String sql = "Insert into task" + "(description, assignedTo, status) VALUES (?, ?, ?)";
 
-			jdbcTemplate.update(sql, new Object[] {task.getTaskDescription(),
-			    task.getAssignedTo(), task.getStatus() 
-			});
-		
+		jdbcTemplate.update(sql, new Object[] { task.getDescription(), task.getAssignedTo(), task.getStatus() });
 	}
-	
+
+@Override
+	public void updateTask(Task task) {
+		String sql = " Update task SET  (assignedTo,status) values (?,?) + "
+				+ "WHERE taskId=?";
+
+		jdbcTemplate.update(sql, new Object[] { task.getAssignedTo(), task.getStatus(), task.getTaskId() });
+	}
+
 }
-	
