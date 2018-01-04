@@ -75,6 +75,17 @@
 
 
 				</form:form>
+				
+				<!-- Error message for incorrect login info -->
+				<br />
+				<c:if test="${not empty error}">
+				<table>
+					<tr>
+						<td class="alert alert-danger">${error}</td>
+					</tr>
+				</table>
+				</c:if>
+				
 			</div>
 		</div>
 

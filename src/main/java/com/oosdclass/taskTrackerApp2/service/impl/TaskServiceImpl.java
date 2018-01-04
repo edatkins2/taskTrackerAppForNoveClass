@@ -26,4 +26,26 @@ public class TaskServiceImpl implements TaskService {
 		task.setAssignedTo("UNASSIGNED");
 		taskdao.saveTask(task);
 	}
+
+	@Override
+	public Task getTaskById(int id) {
+		return taskdao.retrieveByTaskID(id);
+	}
+
+	@Override
+	public void updateStatus(int taskId, String status) {
+		Task task = taskdao.retrieveByTaskID(taskId);
+		task.setStatus(status);
+		taskdao.updateTask(task);
+		
+	}
+
+	@Override
+	public void updateAssignedTo(int taskId, String username) {
+		Task task = taskdao.retrieveByTaskID(taskId);
+		task.setAssignedTo(username);
+		taskdao.updateTask(task);
+		
+		
+	}
 }

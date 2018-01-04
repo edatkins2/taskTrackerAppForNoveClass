@@ -40,16 +40,24 @@ public class UserController {
 		@RequestMapping(value = "/login", method = RequestMethod.POST)
 		public ModelAndView login(User userLoginFormObject) {
 			ModelAndView model = null;
-			//if user is a valid user then display view Task page
-			if(userService.isUserValid(userLoginFormObject)) {
-				model = new ModelAndView("redirect:/adminTasks");
-				
-			}
-			//else keep them on home page and send an error to display
-			//on page to the user
-			else {
+			
+			if(!userService.doesUserExist(userLoginFormObject)) {
 				model = new ModelAndView("home");
 				model.addObject("error", "Username does not exist");
+			}
+			//if user is a valid user then display view Task page
+			else if(!userService.isUserValid(userLoginFormObject)) {
+				model = new ModelAndView("home");
+				model.addObject("error", "Username or Password does not match");
+				}
+			//else keep them on home page and send an error to display
+			//on page to the user
+			else if(userService.isUserAdmin(userLoginFormObject)) {
+				model = new ModelAndView("redirect:/adminTasks");
+			}
+			else {	
+				model=new ModelAndView("redirect:/empTasks/" + userLoginFormObject.getUsername());
+				
 				
 			}
 			

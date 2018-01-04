@@ -52,7 +52,7 @@ public class TaskDAOImpl implements TaskDAO {
 	@Override
 	public Task retrieveByTaskID(int taskID) {
 		try {
-			String sql = "select * from user where taskId=?";
+			String sql = "select * from task where taskId=?";
 			Task task = (Task) jdbcTemplate.queryForObject(sql, new Object[] { taskID }, new RowMapper<Task>() {
 
 				@Override
@@ -81,8 +81,7 @@ public class TaskDAOImpl implements TaskDAO {
 
 @Override
 	public void updateTask(Task task) {
-		String sql = " Update task SET  (assignedTo,status) values (?,?) + "
-				+ "WHERE taskId=?";
+		String sql = " Update task SET assignedTo = ? ,status = ? where taskId=?";
 
 		jdbcTemplate.update(sql, new Object[] { task.getAssignedTo(), task.getStatus(), task.getTaskId() });
 	}
